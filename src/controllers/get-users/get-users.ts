@@ -1,22 +1,18 @@
-import { ControllerProps } from "../protocols";
+import { User } from "../../models/user";
+import { ok, serverError } from "../helpers";
+import { ControllerProps, HttpResponse } from "../protocols";
 import { GetUsersRepositoryProps } from "./protocols";
 
 export class GetUsersController implements ControllerProps {
   constructor(private readonly getUsersRepository: GetUsersRepositoryProps) {}
 
-  async handle() {
+  async handle():Promise<HttpResponse<User[]  | string>> {
     try {
       const users = await this.getUsersRepository.getUsers();
 
-      return {
-        statusCode: 200,
-        body: users,
-      };
+      return ok<User[]>(users)
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong.",
-      };
+      return serverError()
     }
   }
 }

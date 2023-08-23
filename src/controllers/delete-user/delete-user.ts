@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from "../../models/user";
+import { badRequest, ok, serverError } from "../helpers";
 import { ControllerProps, HttpRequest, HttpResponse } from "../protocols";
 import { DeleteUserRepositoryProps } from "./protocols";
 
@@ -6,28 +8,21 @@ export class DeleteUserController implements ControllerProps {
   constructor(
     private readonly deleteUserRepository: DeleteUserRepositoryProps
   ) {}
-  async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<User>> {
+  async handle(
+    httpRequest: HttpRequest<any>
+  ): Promise<HttpResponse<User | string>> {
     try {
       const id = httpRequest?.params?.id;
 
       if (!id) {
-        return {
-          statusCode: 400,
-          body: "Missing user id",
-        };
+        return badRequest("Missing user id")
       }
 
       const user = await this.deleteUserRepository.deleteUser(id);
 
-      return {
-        statusCode: 200,
-        body: user,
-      };
+      return ok<User>(user)
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: "Something went wrong",
-      };
+      return serverError()
     }
   }
 }
