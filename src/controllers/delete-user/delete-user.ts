@@ -1,17 +1,14 @@
 import { User } from "../../models/user";
-import { HttpRequest, HttpResponse } from "../protocols";
-import {
-  DeleteUserControllerProps,
-  DeleteUserRepositoryProps,
-} from "./protocols";
+import { ControllerProps, HttpRequest, HttpResponse } from "../protocols";
+import { DeleteUserRepositoryProps } from "./protocols";
 
-export class DeleteUserController implements DeleteUserControllerProps {
+export class DeleteUserController implements ControllerProps {
   constructor(
     private readonly deleteUserRepository: DeleteUserRepositoryProps
   ) {}
   async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<User>> {
     try {
-      const id = httpRequest?.params?.id
+      const id = httpRequest?.params?.id;
 
       if (!id) {
         return {

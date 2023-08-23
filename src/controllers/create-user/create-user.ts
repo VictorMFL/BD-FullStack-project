@@ -1,10 +1,10 @@
-import validator from 'validator'
+import validator from "validator";
 
 import { User } from "../../models/user";
-import { HttpRequest, HttpResponse } from "../protocols";
-import { CreateUserControllerProps, CreateUserParams, CreateUserRepositoryProps } from "./protocols";
+import { ControllerProps, HttpRequest, HttpResponse } from "../protocols";
+import { CreateUserParams, CreateUserRepositoryProps } from "./protocols";
 
-export class CreateUserController implements CreateUserControllerProps {
+export class CreateUserController implements ControllerProps {
   constructor(
     private readonly createUserRepository: CreateUserRepositoryProps
   ) {}
@@ -13,38 +13,40 @@ export class CreateUserController implements CreateUserControllerProps {
   ): Promise<HttpResponse<User>> {
     try {
       // verifica os campos obrigatórios
-      const requiredFields = ['firstName', 'lastName', 'email', 'password']
+      const requiredFields = ["firstName", "lastName", "email", "password"];
 
-      for(const field of requiredFields) {
-        if(!httpRequest?.body?.[field as keyof CreateUserParams]?.length) {
+      for (const field of requiredFields) {
+        if (!httpRequest?.body?.[field as keyof CreateUserParams]?.length) {
           return {
             statusCode: 400,
-            body: `Field ${field} is required`
-          }
+            body: `Field ${field} is required`,
+          };
         }
       }
 
       // verifica se o email é válido
-      const emailIsValid = validator.isEmail(httpRequest.body!.email)
+      const emailIsValid = validator.isEmail(httpRequest.body!.email);
 
-      if(!emailIsValid) {
+      if (!emailIsValid) {
         return {
           statusCode: 400,
-          body: 'E-mail is invalid'
-        }
+          body: "E-mail is invalid",
+        };
       }
 
-      const user = await this.createUserRepository.createUser(httpRequest.body!);
+      const user = await this.createUserRepository.createUser(
+        httpRequest.body!
+      );
 
       return {
         statusCode: 201,
-        body: user
-      }
+        body: user,
+      };
     } catch (error) {
       return {
         statusCode: 500,
-        body: "Something went wrong."
-      }
+        body: "Something went wrong.",
+      };
     }
   }
 }

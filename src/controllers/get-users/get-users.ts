@@ -1,6 +1,7 @@
-import { GetUsersControllerProps, GetUsersRepositoryProps } from "./protocols";
+import { ControllerProps } from "../protocols";
+import { GetUsersRepositoryProps } from "./protocols";
 
-export class GetUsersController implements GetUsersControllerProps {
+export class GetUsersController implements ControllerProps {
   constructor(private readonly getUsersRepository: GetUsersRepositoryProps) {}
 
   async handle() {
