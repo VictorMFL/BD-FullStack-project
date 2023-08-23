@@ -5,6 +5,7 @@ import {
 } from "../../controllers/update-user/protocols";
 import { MongoClient } from "../../database/mongo";
 import { User } from "../../models/user";
+import { MongoUser } from "../mongo-protocols";
 
 export class MongoUpdateUserRepository implements UpdateUserRepositoryProps {
   async updateUser(id: string, params: UpdateUserParams): Promise<User> {
@@ -13,20 +14,20 @@ export class MongoUpdateUserRepository implements UpdateUserRepositoryProps {
       {
         $set: {
           ...params,
-        },  
+        },
       }
     );
 
     const user = await MongoClient.db
-      .collection<Omit<User, "id">>("users")
+      .collection<MongoUser>("users")
       .findOne({ _id: new ObjectId(id) });
 
-    if(!user) {
-      throw new Error("User not updated")
+    if (!user) {
+      throw new Error("User not updated");
     }
 
-    const {_id, ...rest} = user
+    const { _id, ...rest } = user;
 
-    return {id: _id.toHexString(), ...rest}
+    return { id: _id.toHexString(), ...rest };
   }
 }
