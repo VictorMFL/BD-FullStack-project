@@ -43,7 +43,7 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.patch("/users/:id", async (req, res) => {
+  app.patch("/user/:id", async (req, res) => {
     const mongoUpdateUserRepository = new MongoUpdateUserRepository();
 
     const updateUserController = new UpdateUserController(
@@ -58,7 +58,22 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.delete("/users/:id", async (req, res) => {
+  app.put("/user/:id", async (req, res) => {
+    const mongoUpdateUserRepository = new MongoUpdateUserRepository();
+
+    const updateUserController = new UpdateUserController(
+      mongoUpdateUserRepository
+    );
+
+    const { body, statusCode } = await updateUserController.handle({
+      body: req.body,
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.delete("/user/:id", async (req, res) => {
     const mongoDeleteUserRepository = new MongoDeleteUserRepository();
 
     const deleteUserController = new DeleteUserController(
