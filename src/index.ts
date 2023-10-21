@@ -9,6 +9,8 @@ import { MongoUpdateUserRepository } from "./repositories/user/update-user/mongo
 import { UpdateUserController } from "./controllers/user/update-user/update-user";
 import { MongoDeleteUserRepository } from "./repositories/user/delete-user/mongo-delete-user";
 import { DeleteUserController } from "./controllers/user/delete-user/delete-user";
+import { MongoGetProductsRepository } from "./repositories/product/get-products/mongo-get-products";
+import { GetProductsController } from "./controllers/product/get-products/get-products";
 
 const main = async () => {
   config();
@@ -83,6 +85,18 @@ const main = async () => {
     const { body, statusCode } = await deleteUserController.handle({
       params: req.params,
     });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.get("/products", async (req, res) => {
+    const mongoGetProductsRepository = new MongoGetProductsRepository();
+
+    const getProductsController = new GetProductsController(
+      mongoGetProductsRepository
+    );
+
+    const { body, statusCode } = await getProductsController.handle();
 
     res.status(statusCode).send(body);
   });
