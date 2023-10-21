@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User } from "../../models/user";
-import { badRequest, ok, serverError } from "../helpers";
-import { ControllerProps, HttpRequest, HttpResponse } from "../protocols";
+import { User } from "../../../models/user";
+import { badRequest, ok, serverError } from "../../helpers";
+import { ControllerProps, HttpRequest, HttpResponse } from "../../protocols";
 import { DeleteUserRepositoryProps } from "./protocols";
 
 export class DeleteUserController implements ControllerProps {
@@ -15,14 +15,14 @@ export class DeleteUserController implements ControllerProps {
       const id = httpRequest?.params?.id;
 
       if (!id) {
-        return badRequest("Missing user id")
+        return badRequest("Missing user id");
       }
 
       const user = await this.deleteUserRepository.deleteUser(id);
 
-      return ok<User>(user)
+      return ok<User>(user);
     } catch (error) {
-      return serverError()
+      return serverError();
     }
   }
 }

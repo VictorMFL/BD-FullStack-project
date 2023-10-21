@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import { DeleteUserRepositoryProps } from "../../controllers/delete-user/protocols";
-import { MongoClient } from "../../database/mongo";
-import { User } from "../../models/user";
+import { DeleteUserRepositoryProps } from "../../../controllers/user/delete-user/protocols";
+import { MongoClient } from "../../../database/mongo";
+import { User } from "../../../models/user";
 import { MongoUser } from "../mongo-protocols";
 
 export class MongoDeleteUserRepository implements DeleteUserRepositoryProps {

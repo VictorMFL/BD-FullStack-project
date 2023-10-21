@@ -1,9 +1,9 @@
 import validator from "validator";
 
-import { User } from "../../models/user";
-import { ControllerProps, HttpRequest, HttpResponse } from "../protocols";
+import { User } from "../../../models/user";
+import { ControllerProps, HttpRequest, HttpResponse } from "../../protocols";
 import { CreateUserParams, CreateUserRepositoryProps } from "./protocols";
-import { badRequest, created, serverError } from "../helpers";
+import { badRequest, created, serverError } from "../../helpers";
 
 export class CreateUserController implements ControllerProps {
   constructor(
@@ -18,7 +18,7 @@ export class CreateUserController implements ControllerProps {
 
       for (const field of requiredFields) {
         if (!httpRequest?.body?.[field as keyof CreateUserParams]?.length) {
-          return badRequest(`Field ${field} is required`)
+          return badRequest(`Field ${field} is required`);
         }
       }
 
@@ -26,16 +26,16 @@ export class CreateUserController implements ControllerProps {
       const emailIsValid = validator.isEmail(httpRequest.body!.email);
 
       if (!emailIsValid) {
-        return badRequest("E-mail is invalid")
+        return badRequest("E-mail is invalid");
       }
 
       const user = await this.createUserRepository.createUser(
         httpRequest.body!
       );
 
-      return created<User>(user)
+      return created<User>(user);
     } catch (error) {
-      return serverError()
+      return serverError();
     }
   }
 }

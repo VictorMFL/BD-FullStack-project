@@ -1,6 +1,6 @@
-import { GetUsersRepositoryProps } from "../../controllers/get-users/protocols";
-import { MongoClient } from "../../database/mongo";
-import { User } from "../../models/user";
+import { GetUsersRepositoryProps } from "../../../controllers/user/get-users/protocols";
+import { MongoClient } from "../../../database/mongo";
+import { User } from "../../../models/user";
 import { MongoUser } from "../mongo-protocols";
 
 export class MongoGetUsersRepository implements GetUsersRepositoryProps {

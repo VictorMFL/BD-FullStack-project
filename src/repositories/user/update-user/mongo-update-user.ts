@@ -2,9 +2,9 @@ import { ObjectId } from "mongodb";
 import {
   UpdateUserParams,
   UpdateUserRepositoryProps,
-} from "../../controllers/update-user/protocols";
-import { MongoClient } from "../../database/mongo";
-import { User } from "../../models/user";
+} from "../../../controllers/user/update-user/protocols";
+import { MongoClient } from "../../../database/mongo";
+import { User } from "../../../models/user";
 import { MongoUser } from "../mongo-protocols";
 
 export class MongoUpdateUserRepository implements UpdateUserRepositoryProps {
