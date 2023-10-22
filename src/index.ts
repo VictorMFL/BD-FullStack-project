@@ -15,6 +15,8 @@ import { MongoCreateProductRepository } from "./repositories/product/create-prod
 import { CreateProductController } from "./controllers/product/create-product/create-product";
 import { MongoDeleteProductRepository } from "./repositories/product/delete-product/mongo-delete-product";
 import { DeleteProductController } from "./controllers/product/delete-product/delete-product";
+import { MongoUpdateProductRepository } from "./repositories/product/update-product/mongo-update-product";
+import { UpdateProductController } from "./controllers/product/update-product/update-product";
 
 const main = async () => {
   config();
@@ -127,6 +129,21 @@ const main = async () => {
     );
 
     const { body, statusCode } = await deleteProductController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.put("/product/:id", async (req, res) => {
+    const mongoUpdateProductRepository = new MongoUpdateProductRepository();
+
+    const updateProductController = new UpdateProductController(
+      mongoUpdateProductRepository
+    );
+
+    const { body, statusCode } = await updateProductController.handle({
+      body: req.body,
       params: req.params,
     });
 
