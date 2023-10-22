@@ -19,7 +19,7 @@ export class MongoCreateProductRepository
       .findOne({ _id: insertedId });
 
     if (!product) {
-      throw new Error("User not created");
+      throw new Error("Product not created");
     }
 
     const { _id, ...rest } = product;
