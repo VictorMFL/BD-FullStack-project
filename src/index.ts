@@ -19,6 +19,8 @@ import { MongoUpdateProductRepository } from "./repositories/product/update-prod
 import { UpdateProductController } from "./controllers/product/update-product/update-product";
 import { MongoGetUserRepository } from "./repositories/user/get-user/mongo-get-user";
 import { GetUserController } from "./controllers/user/get-user/get.user";
+import { MongoGetProductRepository } from "./repositories/product/get-product/mongo-get-product";
+import { GetProductController } from "./controllers/product/get-product/get-product";
 
 const main = async () => {
   config();
@@ -45,7 +47,7 @@ const main = async () => {
     const getUserController = new GetUserController(mongoGetUserRepository);
 
     const { body, statusCode } = await getUserController.handle({
-      params: req.params
+      params: req.params,
     });
 
     res.status(statusCode).send(body);
@@ -121,6 +123,20 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
+  app.get("/product/:id", async (req, res) => {
+    const mongoGetProductRepository = new MongoGetProductRepository();
+
+    const getProductController = new GetProductController(
+      mongoGetProductRepository
+    );
+
+    const { body, statusCode } = await getProductController.handle({
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+
   app.post("/product", async (req, res) => {
     const mongoCreateProductRepository = new MongoCreateProductRepository();
 
@@ -163,7 +179,7 @@ const main = async () => {
 
     res.status(statusCode).send(body);
   });
-  
+
   app.put("/product/:id", async (req, res) => {
     const mongoUpdateProductRepository = new MongoUpdateProductRepository();
 
