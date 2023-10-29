@@ -17,6 +17,8 @@ import { MongoDeleteProductRepository } from "./repositories/product/delete-prod
 import { DeleteProductController } from "./controllers/product/delete-product/delete-product";
 import { MongoUpdateProductRepository } from "./repositories/product/update-product/mongo-update-product";
 import { UpdateProductController } from "./controllers/product/update-product/update-product";
+import { MongoGetUserRepository } from "./repositories/user/get-user/mongo-get-user";
+import { GetUserController } from "./controllers/user/get-user/get.user";
 
 const main = async () => {
   config();
@@ -37,7 +39,19 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
-  app.post("/users", async (req, res) => {
+  app.get("/user/:id", async (req, res) => {
+    const mongoGetUserRepository = new MongoGetUserRepository();
+
+    const getUserController = new GetUserController(mongoGetUserRepository);
+
+    const { body, statusCode } = await getUserController.handle({
+      params: req.params
+    });
+
+    res.status(statusCode).send(body);
+  });
+
+  app.post("/user", async (req, res) => {
     const mongoCreateUserRepository = new MongoCreateUserRepository();
 
     const createUserController = new CreateUserController(
