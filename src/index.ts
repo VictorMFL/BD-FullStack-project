@@ -149,6 +149,21 @@ const main = async () => {
     res.status(statusCode).send(body);
   });
 
+  app.patch("/product/:id", async (req, res) => {
+    const mongoUpdateProductRepository = new MongoUpdateProductRepository();
+
+    const updateProductController = new UpdateProductController(
+      mongoUpdateProductRepository
+    );
+
+    const { body, statusCode } = await updateProductController.handle({
+      body: req.body,
+      params: req.params,
+    });
+
+    res.status(statusCode).send(body);
+  });
+  
   app.put("/product/:id", async (req, res) => {
     const mongoUpdateProductRepository = new MongoUpdateProductRepository();
 
