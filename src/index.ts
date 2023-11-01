@@ -22,12 +22,14 @@ import { GetUserController } from "./controllers/user/get-user/get.user";
 import { MongoGetProductRepository } from "./repositories/product/get-product/mongo-get-product";
 import { GetProductController } from "./controllers/product/get-product/get-product";
 
+import cors from 'cors'
+
 const main = async () => {
   config();
 
   const app = express();
 
-  app.use(express.json());
+  app.use(express.json(), cors());
 
   await MongoClient.connect();
 
